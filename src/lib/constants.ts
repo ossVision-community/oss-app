@@ -1,0 +1,86 @@
+import { Department } from "./types";
+
+export const DEPARTMENTS: Department[] = [
+  {
+    id: "logistics",
+    name: "التخطيط والتنفيذ",
+    description: "تنظيم العمليات وتنفيذ المبادرات",
+    icon: "inventory_2",
+  },
+  {
+    id: "media",
+    name: "التصميم والاعلام",
+    description: "التواصل وصناعة المحتوى",
+    icon: "campaign",
+  },
+  {
+    id: "technical",
+    name: "الابتكار التقني",
+    description: "بناء حلول تقنية عبر مشاريع مفتوحة المصدر",
+    icon: "code",
+  },
+  {
+    id: "member_development",
+    name: "تطوير الأعضاء",
+    description: "التدريب والتمكين المعرفي",
+    icon: "trending_up",
+  },
+  {
+    id: "public_relations",
+    name: "العلاقات العامة",
+    description: "بناء الشراكات الخارجية",
+    icon: "handshake",
+  },
+  {
+    id: "human_resources",
+    name: "الموارد البشرية",
+    description: "إدارة شؤون الأعضاء",
+    icon: "groups",
+  },
+];
+
+export const PROGRAMMING_LANGUAGES = [
+  "JavaScript",
+  "TypeScript",
+  "Python",
+  "Java",
+  "C++",
+  "C#",
+  "Go",
+  "Rust",
+  "PHP",
+  "Ruby",
+  "Swift",
+  "Kotlin",
+  "Dart",
+  "HTML/CSS",
+  "SQL",
+  "Other",
+];
+
+export const UNIVERSITIES = [
+  "جامعة الملك سعود",
+  "جامعة الملك عبدالعزيز",
+  "جامعة الملك فهد للبترول والمعادن",
+  "جامعة الإمام محمد بن سعود الإسلامية",
+  "جامعة الأميرة نورة بنت عبدالرحمن",
+  "جامعة الملك خالد",
+  "جامعة أم القرى",
+  "جامعة الطائف",
+  "جامعة القصيم",
+  "جامعة حائل",
+  "جامعة تبوك",
+  "جامعة الجوف",
+  "جامعة نجران",
+  "جامعة جازان",
+  "جامعة الباحة",
+  "جامعة الحدود الشمالية",
+  "جامعة شقراء",
+  "جامعة المجمعة",
+  "جامعة الأمير سطام بن عبدالعزيز",
+  "جامعة دار العلوم",
+  "جامعة اليمامة",
+  "جامعة الأمير سلطان",
+  "جامعة عفت",
+  "أخرى",
+];
