@@ -265,7 +265,7 @@ This project is private and proprietary to OSS Vision Community.
 
 - **Community**: OSS Vision
 - **Website**: [Coming Soon]
-- **Email**: [Contact Email]
+- **Email**: info@ossvision-community.com
 
 ---
 
