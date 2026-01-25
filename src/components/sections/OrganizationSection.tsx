@@ -16,21 +16,15 @@ export default function OrganizationSection() {
         <div className="md:hidden flex flex-col items-center gap-4 mb-12">
           {/* Leader at top */}
           <div className="bg-primary text-white p-6 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center w-full max-w-xs ring-4 ring-white z-10">
-         
             <h3 className="text-xl font-bold">قائد المجتمع</h3>
           </div>
           
           {/* Connector line */}
           <div className="w-0.5 h-6 bg-slate-300"></div>
           
-          {/* Second level - side by side */}
-          <div className="flex gap-4 w-full justify-center">
-            <div className="bg-primary/90 text-white p-4 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center flex-1 max-w-[160px]">
-              <h3 className="text-sm font-bold">مستشارو المجتمع</h3>
-            </div>
-            <div className="bg-primary/90 text-white p-4 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center flex-1 max-w-[160px]">
-              <h3 className="text-sm font-bold">قائد العمليات</h3>
-            </div>
+          {/* Second level - Operations Leader only */}
+          <div className="bg-primary/90 text-white p-4 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center w-full max-w-xs">
+            <h3 className="text-sm font-bold">قائد العمليات</h3>
           </div>
           
           {/* Connector line to departments */}
@@ -41,37 +35,20 @@ export default function OrganizationSection() {
         <div className="hidden md:flex flex-col items-center mb-12">
           {/* Leader at top */}
           <div className="bg-primary text-white p-8 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center w-72 ring-4 ring-white z-10">
-          
             <h3 className="text-xl font-bold">قائد المجتمع</h3>
           </div>
           
-          {/* Connector - vertical line then horizontal split */}
+          {/* Connector - vertical line */}
           <div className="w-0.5 h-8 bg-slate-300"></div>
-          <div className="flex items-start">
-            <div className="w-40 h-0.5 bg-slate-300"></div>
-            <div className="w-0.5 h-8 bg-slate-300 -mt-0.5"></div>
-            <div className="w-40 h-0.5 bg-slate-300"></div>
-          </div>
           
-          {/* Second level - Consultant and Operations */}
-          <div className="flex gap-20 -mt-0.5">
-            <div className="flex flex-col items-center">
-              <div className="w-0.5 h-6 bg-slate-300"></div>
-              <div className="bg-primary/90 text-white p-6 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center w-52">
-                <span className="material-icons-round text-2xl mb-2 text-cyan-300">
-                  groups
-                </span>
-                <h3 className="text-lg font-bold">مستشارو المجتمع</h3>
-              </div>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-0.5 h-6 bg-slate-300"></div>
-              <div className="bg-primary/90 text-white p-6 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center w-52">
-                <span className="material-icons-round text-2xl mb-2 text-cyan-300">
-                  settings
-                </span>
-                <h3 className="text-lg font-bold">قائد العمليات</h3>
-              </div>
+          {/* Second level - Operations Leader only */}
+          <div className="flex flex-col items-center">
+            <div className="w-0.5 h-6 bg-slate-300"></div>
+            <div className="bg-primary/90 text-white p-6 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center w-52">
+              <span className="material-icons-round text-2xl mb-2 text-cyan-300">
+                settings
+              </span>
+              <h3 className="text-lg font-bold">قائد العمليات</h3>
             </div>
           </div>
           
