@@ -1,4 +1,5 @@
 import { DEPARTMENTS } from "@/lib/constants";
+import Link from "next/link";
 
 export default function OrganizationSection() {
   return (
@@ -72,6 +73,33 @@ export default function OrganizationSection() {
               </p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            className="relative overflow-hidden group bg-gradient-to-r from-primary to-[#312e81] text-white px-8 py-3 rounded-xl text-base font-bold transition-all hover:scale-105 shadow-xl shadow-primary/30"
+            href="https://github.com/ossVision-community"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white/10" />
+            <span className="relative inline-flex items-center gap-2">
+              <span className="material-icons-round text-xl">rocket_launch</span>
+              ساهم معنا
+            </span>
+          </Link>
+          <Link
+            className="relative overflow-hidden group bg-white text-primary px-8 py-3 rounded-xl text-base font-bold border border-primary/30 hover:border-primary/60 hover:bg-slate-50 transition-all hover:scale-105"
+            href="https://firebasestorage.googleapis.com/v0/b/oss-project-2bab0.firebasestorage.app/o/ref-OSS-Vision.pdf?alt=media&token=d9d2a40b-486b-45e3-bfcb-2f68bcc142ad"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-primary/5" />
+            <span className="relative inline-flex items-center gap-2">
+              <span className="material-icons-round text-xl">menu_book</span>
+              اكتشف رؤيتنا
+            </span>
+          </Link>
         </div>
       </div>
     </section>

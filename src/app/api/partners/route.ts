@@ -3,8 +3,8 @@ import { timingSafeEqual } from "crypto";
 import { getDb } from "@/lib/db";
 import { rateLimit } from "@/lib/rateLimit";
 import { isRemoteConfigEnabled } from "@/lib/remoteConfigServer";
-import { JoinApplicationData } from "@/lib/types";
-import { joinFormSchema } from "@/lib/validations";
+import { partnerFormSchema } from "@/lib/validations";
+import { PartnerInquiryData } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -28,21 +28,15 @@ function isAuthorized(request: NextRequest): boolean {
   return safeEqual(provided, expected);
 }
 
-// Sanitize string input to prevent XSS
 function sanitizeString(str: string): string {
-  return str
-    .replace(/[<>]/g, "") // Remove potential HTML tags
-    .trim();
+  return str.replace(/[<>]/g, "").trim();
 }
 
-// Sanitize application data
-function sanitizeApplicationData(data: Record<string, unknown>): Record<string, unknown> {
+function sanitizeData(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(data)) {
     if (typeof value === "string") {
       sanitized[key] = sanitizeString(value);
-    } else if (Array.isArray(value)) {
-      sanitized[key] = value.map(v => typeof v === "string" ? sanitizeString(v) : v);
     } else {
       sanitized[key] = value;
     }
@@ -52,9 +46,8 @@ function sanitizeApplicationData(data: Record<string, unknown>): Record<string, 
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
     const rate = rateLimit(request, {
-      prefix: "applications:post",
+      prefix: "partners:post",
       windowMs: RATE_LIMIT_WINDOW,
       max: RATE_LIMIT_MAX_POST,
     });
@@ -72,9 +65,7 @@ export async function POST(request: NextRequest) {
     }
 
     const rawData = await request.json();
-    
-    // Server-side validation using Zod schema
-    const validationResult = joinFormSchema.safeParse(rawData);
+    const validationResult = partnerFormSchema.safeParse(rawData);
     if (!validationResult.success) {
       return NextResponse.json(
         { error: "البيانات المدخلة غير صحيحة", details: validationResult.error.flatten() },
@@ -82,68 +73,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Sanitize validated data
-    const applicationData = sanitizeApplicationData(validationResult.data as Record<string, unknown>);
-
-    const db = await getDb();
-    const collection = db.collection<JoinApplicationData>("applications");
-
-    // Check if email already exists (use sanitized email)
-    const existingApplication = await collection.findOne({
-      email: applicationData.email as string,
-    });
-
-    if (existingApplication) {
+    const partnersOpen = await isRemoteConfigEnabled("partnerButton");
+    if (!partnersOpen) {
       return NextResponse.json(
-        {
-          message: "تم تقديم طلبك بنجاح",
-          id: existingApplication._id.toString(),
-          alreadySubmitted: true,
-        },
-        { status: 200, headers: { ...NO_STORE_HEADERS, ...rate.headers } }
-      );
-    }
-
-    const applicationsOpen = await isRemoteConfigEnabled("applicationButton");
-    if (!applicationsOpen) {
-      return NextResponse.json(
-        { error: "التقديم مقفل حالياً. قريباً!" },
+        { error: "باب الشراكات مقفل حالياً. قريباً!" },
         { status: 503, headers: { ...NO_STORE_HEADERS, ...rate.headers } }
       );
     }
 
-    // Add metadata
-    const application: JoinApplicationData = {
-      ...(applicationData as unknown as JoinApplicationData),
+    const partnerData = sanitizeData(validationResult.data as Record<string, unknown>);
+
+    const db = await getDb();
+    const collection = db.collection<PartnerInquiryData>("partners");
+
+    const inquiry: PartnerInquiryData = {
+      ...(partnerData as unknown as PartnerInquiryData),
       submittedAt: new Date(),
-      status: "pending" as const,
+      status: "new" as const,
     };
 
-    const result = await collection.insertOne(application);
+    const result = await collection.insertOne(inquiry);
 
     return NextResponse.json(
-      {
-        message: "تم تقديم طلبك بنجاح",
-        id: result.insertedId.toString(),
-        alreadySubmitted: false,
-      },
+      { message: "وصلتنا رسالتك، بنرجع لك قريباً", id: result.insertedId.toString() },
       { status: 201, headers: { ...NO_STORE_HEADERS, ...rate.headers } }
     );
   } catch (error) {
-    // Don't expose internal errors to clients
-    console.error("Error saving application:", error);
+    console.error("Error saving partner inquiry:", error);
     return NextResponse.json(
-      { error: "حدث خطأ في تقديم الطلب. الرجاء المحاولة مرة أخرى." },
+      { error: "حدث خطأ في إرسال الطلب. الرجاء المحاولة مرة أخرى." },
       { status: 500, headers: NO_STORE_HEADERS }
     );
   }
 }
 
-// Protected GET endpoint - requires API key
 export async function GET(request: NextRequest) {
   try {
     const rate = rateLimit(request, {
-      prefix: "applications:get",
+      prefix: "partners:get",
       windowMs: RATE_LIMIT_WINDOW,
       max: RATE_LIMIT_MAX_GET,
     });
@@ -162,17 +129,17 @@ export async function GET(request: NextRequest) {
     }
 
     const db = await getDb();
-    const collection = db.collection<JoinApplicationData>("applications");
+    const collection = db.collection<PartnerInquiryData>("partners");
 
-    const applications = await collection
+    const inquiries = await collection
       .find({})
       .sort({ submittedAt: -1 })
       .limit(100)
       .toArray();
 
-    return NextResponse.json(applications, { headers: { ...NO_STORE_HEADERS, ...rate.headers } });
+    return NextResponse.json(inquiries, { headers: { ...NO_STORE_HEADERS, ...rate.headers } });
   } catch (error) {
-    console.error("Error fetching applications:", error);
+    console.error("Error fetching partner inquiries:", error);
     return NextResponse.json(
       { error: "حدث خطأ في جلب الطلبات" },
       { status: 500, headers: NO_STORE_HEADERS }

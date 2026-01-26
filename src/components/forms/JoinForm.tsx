@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { type MouseEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/lib/firebase";
+import { fetchRemoteConfig } from "@/lib/remoteConfigClient";
 import { joinFormSchema, JoinFormData } from "@/lib/validations";
 
 interface JoinFormProps {
@@ -34,7 +35,7 @@ const DEPARTMENTS = [
   { id: "design", name: "التصميم والاعلام", icon: "palette" },
   { id: "media", name: "التخطيط والتنفيذ", icon: "campaign" },
   { id: "events", name: "الموارد البشرية", icon: "event" },
-  { id: "relations", name: "تقدم الاعضاء", icon: "groups" },
+  { id: "relations", name: "مبادرة تقدم الأعضاء", icon: "groups" },
 ];
 
 export default function JoinForm({ onSuccess }: JoinFormProps) {
@@ -42,6 +43,8 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [applicationEnabled, setApplicationEnabled] = useState<boolean | null>(null);
+  const [pressedDisabledSubmit, setPressedDisabledSubmit] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -58,6 +61,28 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
   });
 
   const selectedDepartment = watch("interestedDepartment") || "";
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchRemoteConfig(["applicationButton"])
+      .then((configs) => {
+        if (cancelled) return;
+        setApplicationEnabled(Boolean(configs.applicationButton));
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setApplicationEnabled(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const onDisabledSubmitClick = (e: MouseEvent) => {
+    e.preventDefault();
+    setPressedDisabledSubmit(true);
+    window.setTimeout(() => setPressedDisabledSubmit(false), 1800);
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -78,13 +103,17 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
     }
   };
 
-  const uploadResume = async (file: File, email: string): Promise<string> => {
+  const uploadResume = async (file: File): Promise<string> => {
     const timestamp = Date.now();
-    const fileName = `resumes/${email}_${timestamp}_${file.name}`;
+    const id =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `${timestamp}-${Math.random().toString(16).slice(2)}`;
+    const fileName = `resumes/${id}.pdf`;
     const storageRef = ref(storage, fileName);
 
     setUploadProgress(10);
-    await uploadBytes(storageRef, file);
+    await uploadBytes(storageRef, file, { contentType: "application/pdf" });
     setUploadProgress(80);
 
     const downloadUrl = await getDownloadURL(storageRef);
@@ -101,7 +130,7 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
       let resumeUrl = "";
 
       if (resumeFile) {
-        resumeUrl = await uploadResume(resumeFile, data.email);
+        resumeUrl = await uploadResume(resumeFile);
       }
 
       const response = await fetch("/api/applications", {
@@ -134,6 +163,9 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
     // Errors are displayed inline, no console logging needed
   };
 
+  const submitButtonClass =
+    "w-full h-14 bg-[#68539d] hover:bg-[#68539d]/90 text-white font-bold text-lg rounded-xl transition-all shadow-lg shadow-[#68539d]/20 flex items-center justify-center gap-2 group active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed";
+
   return (
     <div className="bg-white rounded-2xl shadow-xl shadow-[#68539d]/5 p-8 border border-gray-100">
       <form onSubmit={handleSubmit(onSubmit, onFormError)} className="space-y-6">
@@ -164,7 +196,7 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
               {...register("email")}
               dir="ltr"
               className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base text-right placeholder:text-right"
-              placeholder="example@university.edu.sa"
+              placeholder="Your Email" // suugest placeholder for email
             />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -301,11 +333,11 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
             رابط LinkedIn (اختياري)
           </label>
           <input
-            type="text"
+            type="url"
             {...register("linkedinProfile")}
             dir="ltr"
             className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base text-left"
-            placeholder="linkedin.com/in/username"
+            placeholder="https://linkedin.com/in/username"
           />
         </div>
 
@@ -391,25 +423,74 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
 
         {/* Submit Button */}
         <div className="pt-4 space-y-4">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full h-14 bg-[#68539d] hover:bg-[#68539d]/90 text-white font-bold text-lg rounded-xl transition-all shadow-lg shadow-[#68539d]/20 flex items-center justify-center gap-2 group active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? (
-              <>
-                <span className="material-symbols-outlined animate-spin">refresh</span>
-                جاري تقديم الطلب...
-              </>
-            ) : (
-              <>
+          {applicationEnabled === false && !isSubmitting ? (
+            <div className="relative">
+              <button
+                type="button"
+                onClick={onDisabledSubmitClick}
+                aria-disabled="true"
+                className={`${submitButtonClass} opacity-60 cursor-pointer ${
+                  pressedDisabledSubmit ? "animate-[wiggle_350ms_ease-in-out_0ms_2]" : ""
+                }`}
+              >
                 <span>أرسل طلبك</span>
                 <span className="material-symbols-outlined group-hover:translate-x-[-4px] transition-transform">
                   send
                 </span>
-              </>
-            )}
-          </button>
+              </button>
+              {pressedDisabledSubmit && (
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 -top-12 whitespace-nowrap rounded-2xl bg-white/95 border border-slate-200 px-3 py-2 text-sm text-slate-800 shadow-xl"
+                  role="status"
+                >
+                  قريباً... باب الانضمام بيفتح
+                  <span className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-3 h-3 bg-white/95 border-b border-r border-slate-200 rotate-45" />
+                </div>
+              )}
+              <style jsx>{`
+                @keyframes wiggle {
+                  0%,
+                  100% {
+                    transform: translateX(0);
+                  }
+                  25% {
+                    transform: translateX(-3px);
+                  }
+                  50% {
+                    transform: translateX(3px);
+                  }
+                  75% {
+                    transform: translateX(-2px);
+                  }
+                }
+              `}</style>
+            </div>
+          ) : (
+            <button
+              type="submit"
+              disabled={isSubmitting || applicationEnabled === null}
+              className={submitButtonClass}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="material-symbols-outlined animate-spin">refresh</span>
+                  جاري تقديم الطلب...
+                </>
+              ) : applicationEnabled === null ? (
+                <>
+                  <span className="material-symbols-outlined animate-spin">refresh</span>
+                  جاري التحقق...
+                </>
+              ) : (
+                <>
+                  <span>أرسل طلبك</span>
+                  <span className="material-symbols-outlined group-hover:translate-x-[-4px] transition-transform">
+                    send
+                  </span>
+                </>
+              )}
+            </button>
+          )}
          
         </div>
       </form>

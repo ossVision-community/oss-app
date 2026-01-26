@@ -21,7 +21,7 @@ export const DEPARTMENTS: Department[] = [
   },
   {
     id: "member_development",
-    name: "تطوير الأعضاء",
+    name: "مبادرة تقدم الأعضاء",
     description: "التدريب والتمكين المعرفي",
     icon: "trending_up",
   },

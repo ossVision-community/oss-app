@@ -1,5 +1,21 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === "production";
+
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'self'",
+  "object-src 'none'",
+  `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-eval'"}`,
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "img-src 'self' data: blob: https://lh3.googleusercontent.com https://firebasestorage.googleapis.com",
+  `connect-src 'self' https://*.googleapis.com${isProd ? "" : " ws:"}`,
+  ...(isProd ? ["upgrade-insecure-requests"] : []),
+].join("; ");
+
 const securityHeaders = [
   {
     key: "X-DNS-Prefetch-Control",
@@ -14,6 +30,10 @@ const securityHeaders = [
     value: "SAMEORIGIN",
   },
   {
+    key: "Cross-Origin-Opener-Policy",
+    value: "same-origin",
+  },
+  {
     key: "X-Content-Type-Options",
     value: "nosniff",
   },
@@ -23,17 +43,26 @@ const securityHeaders = [
   },
   {
     key: "Referrer-Policy",
-    value: "origin-when-cross-origin",
+    value: "strict-origin-when-cross-origin",
   },
   {
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=()",
+  },
+  {
+    key: "X-Permitted-Cross-Domain-Policies",
+    value: "none",
+  },
+  {
+    key: "Content-Security-Policy",
+    value: contentSecurityPolicy,
   },
 ];
 
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {

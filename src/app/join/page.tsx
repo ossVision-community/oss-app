@@ -5,13 +5,35 @@ import Link from "next/link";
 import Image from "next/image";
 import JoinForm from "@/components/forms/JoinForm";
 
+const JOIN_SUBMISSION_STORAGE_KEY = "ossVisionJoinSubmission";
+
 export default function JoinPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [applicationId, setApplicationId] = useState<string>("");
+  const [initialSubmission] = useState<{ applicationId: string; submittedAt?: string } | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const raw = window.localStorage.getItem(JOIN_SUBMISSION_STORAGE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw) as { applicationId?: string; submittedAt?: string };
+      return parsed?.applicationId ? { applicationId: parsed.applicationId, submittedAt: parsed.submittedAt } : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const [submitted, setSubmitted] = useState(Boolean(initialSubmission));
+  const [applicationId, setApplicationId] = useState<string>(initialSubmission?.applicationId ?? "");
 
   const handleSuccess = (id: string) => {
     setApplicationId(id);
     setSubmitted(true);
+    try {
+      window.localStorage.setItem(
+        JOIN_SUBMISSION_STORAGE_KEY,
+        JSON.stringify({ applicationId: id, submittedAt: new Date().toISOString() })
+      );
+    } catch {
+      // ignore
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -145,6 +167,11 @@ export default function JoinPage() {
               <p className="text-gray-600 text-lg mb-8">
                 شكراً لاهتمامك بالانضمام لمجتمع رؤية المصادر المفتوحة
               </p>
+              {applicationId ? (
+                <p className="text-sm text-slate-500 mb-8" dir="ltr">
+                  Application ID: {applicationId}
+                </p>
+              ) : null}
               <div className="bg-white p-6 rounded-2xl shadow-sm max-w-md mx-auto mb-8">
                 <h3 className="font-bold mb-3">الخطوات القادمة:</h3>
                 <ul className="text-right text-gray-600 space-y-2">

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function Hero() {
   return (
     <header className="relative pt-12 pb-24 px-4 sm:px-8 lg:px-24 flex flex-col items-center text-center overflow-hidden">
@@ -39,22 +37,24 @@ export default function Hero() {
       </div>
 
     
-      <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#312e81] leading-tight mb-4">
-        مجتمع رؤية <br />
-للمصادر المفتوحة 
-     </h1>
+      <h1
+        className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#312e81] leading-tight mb-4"
+        dir="ltr"
+      >
+        <span className="block hero-line">
+          <span className="inline-flex items-baseline justify-center gap-3">
+            <span>OSS</span>
+           
+          </span>
+        </span>
+        <span className="block hero-line hero-line-2">Vision community</span>
+      </h1>
       <p className="text-secondary font-bold text-xl md:text-2xl mb-6">
 نتعلّم . نساهم . نبني حلول 
       </p>
       <p className="text-slate-500 text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
 مجتمع تقني  يجمع الطلاب للمساهمة في مشاريع مفتوحة المصدر وبناء حلول حقيقية
       </p>
-      <Link
-        className="bg-primary hover:bg-opacity-90 text-white px-10 py-3.5 rounded-xl text-lg font-bold transition-transform hover:scale-105 shadow-xl shadow-primary/30"
-        href="/join"
-      >
-        ساهم معنا
-      </Link>
     </header>
   );
 }

@@ -1,4 +1,5 @@
-import Link from "next/link";
+import JoinSpaceButton from "./JoinSpaceButton";
+import RemoteConfigLinkButton from "./RemoteConfigLinkButton";
 
 export default function CTASection() {
   return (
@@ -12,12 +13,14 @@ export default function CTASection() {
             </h3>
             <p className="text-slate-600 mb-8 max-w-sm">
 نؤمن بالشراكات التي تجمع بين دعم المبادرات الطلابية وتحقيق أثر مجتمعي يعود بالنفع على الشركاء والمجتمع     </p>
-            <Link
+            <RemoteConfigLinkButton
+              flagKey="partnerButton"
+              href="/partner"
               className="inline-block bg-secondary text-white font-bold py-2.5 px-8 rounded-xl shadow-lg shadow-secondary/30 hover:shadow-secondary/50 transition-all"
-              href="#"
+              disabledMessage="قريباً... باب الشراكات سيفتح"
             >
               كن شريكاً
-            </Link>
+            </RemoteConfigLinkButton>
           </div>
           <div className="absolute -bottom-10 -left-10 text-slate-200 opacity-50 group-hover:scale-105 transition-transform duration-500">
             <span className="material-icons-round" style={{ fontSize: "180px" }}>
@@ -33,12 +36,7 @@ export default function CTASection() {
             <p className="text-indigo-100 mb-8 max-w-sm">
              كن جزءًا من مجتمع طلابي يعمل على مشاريع مفتوحة المصدر، ويحوّل التعلّم الجامعي إلى تجربة عملية حقيقية.
             </p>
-            <Link
-              className="inline-block bg-white text-primary font-bold py-2.5 px-8 rounded-xl shadow-lg hover:bg-slate-50 transition-all"
-              href="#"
-            >
-              انضم لمساحتنا
-            </Link>
+            <JoinSpaceButton />
           </div>
           <div className="absolute -bottom-10 -right-10 text-white opacity-10 group-hover:scale-105 transition-transform duration-500">
             <span className="material-icons-round" style={{ fontSize: "180px" }}>

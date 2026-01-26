@@ -38,3 +38,16 @@ export interface FormState {
   message: string;
   applicationId?: string;
 }
+
+export interface PartnerInquiryData {
+  organizationName: string;
+  contactName: string;
+  email: string;
+  phoneNumber: string;
+  website?: string;
+  partnershipType: string;
+  message: string;
+
+  submittedAt: Date;
+  status: "new" | "reviewed" | "contacted" | "closed";
+}
