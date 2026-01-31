@@ -12,12 +12,12 @@ export default function OrganizationSection() {
           الهيكل التنظيمي للمجتمع
         </h2>
       </div>
-      <div className="max-w-6xl mx-auto">
-        {/* Leadership - Mobile */}
-        <div className="md:hidden flex flex-col items-center gap-4 mb-12">
+        <div className="max-w-6xl mx-auto">
+          {/* Leadership - Mobile */}
+          <div className="md:hidden flex flex-col items-center gap-4 mb-12">
           {/* Leader at top */}
           <div className="bg-primary text-white p-6 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center w-full max-w-xs ring-4 ring-white z-10">
-            <h3 className="text-xl font-bold">قائد المجتمع</h3>
+            <h3 className="text-xl font-bold">رئيس المجتمع</h3>
           </div>
           
           {/* Connector line */}
@@ -25,7 +25,7 @@ export default function OrganizationSection() {
           
           {/* Second level - Operations Leader only */}
           <div className="bg-primary/90 text-white p-4 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center w-full max-w-xs">
-            <h3 className="text-sm font-bold">قائد العمليات</h3>
+            <h3 className="text-sm font-bold">مدير العمليات</h3>
           </div>
           
           {/* Connector line to departments */}
@@ -36,7 +36,7 @@ export default function OrganizationSection() {
         <div className="hidden md:flex flex-col items-center mb-12">
           {/* Leader at top */}
           <div className="bg-primary text-white p-8 rounded-2xl shadow-lg flex flex-col items-center justify-center text-center w-72 ring-4 ring-white z-10">
-            <h3 className="text-xl font-bold">قائد المجتمع</h3>
+            <h3 className="text-xl font-bold">رئيس المجتمع</h3>
           </div>
           
           {/* Connector - vertical line */}
@@ -49,7 +49,7 @@ export default function OrganizationSection() {
               <span className="material-icons-round text-2xl mb-2 text-cyan-300">
                 settings
               </span>
-              <h3 className="text-lg font-bold">قائد العمليات</h3>
+              <h3 className="text-lg font-bold">مدير العمليات</h3>
             </div>
           </div>
           
@@ -62,7 +62,9 @@ export default function OrganizationSection() {
           {DEPARTMENTS.map((dept) => (
             <div
               key={dept.id}
-              className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition-all"
+              className={`bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition-all ${
+                dept.id === "member_development" ? "order-last sm:order-none" : ""
+              }`}
             >
               <div className="text-primary mb-3">
                 <span className="material-icons-round text-3xl">{dept.icon}</span>

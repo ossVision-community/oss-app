@@ -27,7 +27,7 @@ export default function AboutSection() {
             </div>
             <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
               <div className="w-10 h-10 bg-cyan-50 rounded-lg flex items-center justify-center text-secondary mb-4">
-                <span className="material-icons-round">handshake</span>
+                <span className="material-icons-round">hub</span>
               </div>
               <h3 className="text-xl font-bold mb-2">ساهم</h3>
               <p className="text-sm text-slate-500 leading-relaxed">

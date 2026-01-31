@@ -9,13 +9,22 @@ export default function Footer() {
     >
       <div className="max-w-6xl mx-auto px-4 text-center">
         <p className="text-slate-500 mb-6 font-medium">
-          بدعم ورعاية هيئة الحكومة الرقمية
+          بدعم ورعاية هيئة الحكومة الرقمية وجامعة الإمام محمد بن سعود الإسلامية
         </p>
-        <div className="flex justify-center mb-16">
+        <div className="flex justify-center gap-4 mb-16">
           <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 w-32 h-32 flex items-center justify-center">
             <Image
               alt="Digital Government Authority Logo"
               src="/dga-logo.png"
+              width={100}
+              height={100}
+              className="object-contain"
+            />
+          </div>
+          <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 w-32 h-32 flex items-center justify-center">
+            <Image
+              alt="Imam University Logo"
+              src="/uni-logo.png"
               width={100}
               height={100}
               className="object-contain"
@@ -50,7 +59,10 @@ export default function Footer() {
             {/* GitHub */}
             <Link
               className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition-colors"
-              href="#"
+              href="https://github.com/ossVision-community"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
             >
               <svg
                 aria-hidden="true"
@@ -68,7 +80,10 @@ export default function Footer() {
             {/* X (Twitter) */}
             <Link
               className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition-colors"
-              href="#"
+              href="https://x.com/openv_imsiu1?s=21"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X"
             >
               <svg
                 aria-hidden="true"
@@ -82,7 +97,10 @@ export default function Footer() {
             {/* LinkedIn */}
             <Link
               className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition-colors"
-              href="#"
+              href="https://www.linkedin.com/company/oss-vision/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
             >
               <svg
                 aria-hidden="true"
@@ -93,13 +111,21 @@ export default function Footer() {
                 <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
               </svg>
             </Link>
-            {/* Discord */}
+            {/* Telegram */}
             <Link
               className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition-colors"
-              href="#"
+              href="https://t.me/OpenVision_imsiu"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Telegram"
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path>
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M21.5 4.5L2.7 11.8c-.9.4-.9 1.2-.2 1.4l4.8 1.5 1.9 5.8c.2.5.4.6.8.6.3 0 .5-.1.8-.4l2.7-2.6 5.6 4.1c.6.4 1.1.2 1.3-.6l3.4-16.1c.2-1-.4-1.5-1.3-1.2zm-3 3.3l-9.4 8.5c-.3.3-.6.3-1 0l-3.8-2.4 14-6.1c.7-.3.9.1.2.6z" />
               </svg>
             </Link>
           </div>

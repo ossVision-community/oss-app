@@ -36,6 +36,7 @@ const DEPARTMENTS = [
   { id: "media", name: "التخطيط والتنفيذ", icon: "campaign" },
   { id: "events", name: "الموارد البشرية", icon: "event" },
   { id: "relations", name: "مبادرة تقدم الأعضاء", icon: "groups" },
+  { id: "public_relations", name: "العلاقات العامة", icon: "handshake" },
 ];
 
 export default function JoinForm({ onSuccess }: JoinFormProps) {
@@ -400,12 +401,12 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
         {/* Bio */}
         <div className="flex flex-col gap-2">
           <label className="text-[#0e0b77] font-semibold text-sm mr-1">
-            قولنا عن نفسك <span className="text-red-500">*</span>
+            عرّفنا بنفسك وباهتماماتك <span className="text-red-500">*</span>
           </label>
           <textarea
             {...register("motivation")}
             className="w-full rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none p-4 text-base resize-none"
-            placeholder="اهتماماتك، خبراتك، أو ليش حاب تنضم لنا؟"
+            placeholder="ودنا نسمع نبذة عن نفسك"
             rows={4}
           />
           {errors.motivation && (
