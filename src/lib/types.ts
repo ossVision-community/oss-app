@@ -1,25 +1,27 @@
 export interface JoinApplicationData {
   // Personal Info
-  fullName: string;
-  email: string;
+  fullNameAr: string;
+  fullNameEn: string;
+  nationalId: string;
+  dateOfBirth: string;
+  universityId: string;
+  personalEmail: string;
   phoneNumber: string;
   university: string;
-  major: string;
+  college: string;
+  specialization: string;
+  academicLevel: string;
   graduationYear: number;
 
-  // Technical Info
-  programmingLanguages: string[];
-  githubProfile?: string;
   linkedinProfile?: string;
-  portfolioUrl?: string;
 
   // Interest & Motivation
-  interestedDepartments: string[];
-  motivation: string;
-  previousExperience?: string;
+  interestedDepartment: string;
+  joiningGoal: string;
+  skillsAndExperience: string;
 
   // Resume
-  resumeUrl: string;
+  resumeUrl?: string;
 
   // Meta
   submittedAt: Date;

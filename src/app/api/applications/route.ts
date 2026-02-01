@@ -88,9 +88,13 @@ export async function POST(request: NextRequest) {
     const db = await getDb();
     const collection = db.collection<JoinApplicationData>("applications");
 
-    // Check if email already exists (use sanitized email)
+    // Check if application already exists (use sanitized personal email)
     const existingApplication = await collection.findOne({
-      email: applicationData.email as string,
+      $or: [
+        { personalEmail: applicationData.personalEmail as string },
+        // Backward compatibility for older records
+        { email: applicationData.personalEmail as string } as unknown as Record<string, string>,
+      ],
     });
 
     if (existingApplication) {

@@ -12,15 +12,6 @@ interface JoinFormProps {
   onSuccess: (applicationId: string) => void;
 }
 
-const SPECIALIZATIONS = [
-  { value: "cs", label: "علوم حاسب" },
-  { value: "is", label: "نظم معلومات" },
-  { value: "ce", label: "هندسة حاسب" },
-  { value: "swe", label: "هندسة برمجيات" },
-  { value: "cyb", label: "أمن سيبراني" },
-  { value: "other", label: "تخصص آخر" },
-];
-
 const LEVELS = [
   { value: "1", label: "1 - 2" },
   { value: "2", label: "3 - 4" },
@@ -57,7 +48,8 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
     resolver: zodResolver(joinFormSchema),
     defaultValues: {
       interestedDepartment: "",
-      graduationYear: 0,
+      academicLevel: "",
+      graduationYear: new Date().getFullYear(),
     },
   });
 
@@ -171,36 +163,107 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
     <div className="bg-white rounded-2xl shadow-xl shadow-[#68539d]/5 p-8 border border-gray-100">
       <form onSubmit={handleSubmit(onSubmit, onFormError)} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Full Name */}
+          {/* Full Name (Arabic) */}
           <div className="flex flex-col gap-2">
             <label className="text-[#0e0b77] font-semibold text-sm mr-1">
-              الاسم الكامل <span className="text-red-500">*</span>
+              الاسم الثلاثي (باللغة العربية) <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              {...register("fullName")}
+              {...register("fullNameAr")}
               className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base"
               placeholder="أدخل اسمك الثلاثي"
             />
-            {errors.fullName && (
-              <p className="text-red-500 text-sm">{errors.fullName.message}</p>
+            {errors.fullNameAr && (
+              <p className="text-red-500 text-sm">{errors.fullNameAr.message}</p>
             )}
           </div>
 
-          {/* University Email */}
+          {/* Full Name (English) */}
           <div className="flex flex-col gap-2">
             <label className="text-[#0e0b77] font-semibold text-sm mr-1">
-              الايميل  <span className="text-red-500">*</span>
+              الاسم الثلاثي (باللغة الإنجليزية) <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              {...register("fullNameEn")}
+              dir="ltr"
+              className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base text-right placeholder:text-right"
+              placeholder="First Middle Last"
+            />
+            {errors.fullNameEn && (
+              <p className="text-red-500 text-sm">{errors.fullNameEn.message}</p>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* National ID */}
+          <div className="flex flex-col gap-2">
+            <label className="text-[#0e0b77] font-semibold text-sm mr-1">
+              رقم الهوية <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              {...register("nationalId")}
+              dir="ltr"
+              className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base text-right"
+              placeholder="XXXXXXXXXX"
+            />
+            {errors.nationalId && (
+              <p className="text-red-500 text-sm">{errors.nationalId.message}</p>
+            )}
+          </div>
+
+          {/* Date of Birth */}
+          <div className="flex flex-col gap-2">
+            <label className="text-[#0e0b77] font-semibold text-sm mr-1">
+              تاريخ الميلاد <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              {...register("dateOfBirth")}
+              dir="ltr"
+              className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base"
+            />
+            {errors.dateOfBirth && (
+              <p className="text-red-500 text-sm">{errors.dateOfBirth.message}</p>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* University ID */}
+          <div className="flex flex-col gap-2">
+            <label className="text-[#0e0b77] font-semibold text-sm mr-1">
+              الرقم الجامعي <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              {...register("universityId")}
+              dir="ltr"
+              className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base text-right"
+              placeholder="مثال: 44XXXXXXX"
+            />
+            {errors.universityId && (
+              <p className="text-red-500 text-sm">{errors.universityId.message}</p>
+            )}
+          </div>
+
+          {/* Personal Email */}
+          <div className="flex flex-col gap-2">
+            <label className="text-[#0e0b77] font-semibold text-sm mr-1">
+              البريد الإلكتروني الشخصي (ليس الجامعي) <span className="text-red-500">*</span>
             </label>
             <input
               type="email"
-              {...register("email")}
+              {...register("personalEmail")}
               dir="ltr"
-              className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base text-right placeholder:text-right"
-              placeholder="Your Email" // suugest placeholder for email
+              className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base"
+              placeholder="name@example.com"
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            {errors.personalEmail && (
+              <p className="text-red-500 text-sm">{errors.personalEmail.message}</p>
             )}
           </div>
         </div>
@@ -243,6 +306,22 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* College */}
+          <div className="flex flex-col gap-2">
+            <label className="text-[#0e0b77] font-semibold text-sm mr-1">
+              الكلية <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              {...register("college")}
+              className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base"
+              placeholder="مثال: كلية علوم الحاسب والمعلومات"
+            />
+            {errors.college && (
+              <p className="text-red-500 text-sm">{errors.college.message}</p>
+            )}
+          </div>
+
           {/* Specialization */}
           <div className="flex flex-col gap-2">
             <label className="text-[#0e0b77] font-semibold text-sm mr-1">
@@ -250,27 +329,50 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
             </label>
             <input
               type="text"
-              {...register("major")}
+              {...register("specialization")}
               className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base"
               placeholder="مثال: علوم حاسب"
             />
-            {errors.major && (
-              <p className="text-red-500 text-sm">{errors.major.message}</p>
+            {errors.specialization && (
+              <p className="text-red-500 text-sm">{errors.specialization.message}</p>
             )}
           </div>
+        </div>
 
-          {/* Level */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Academic Level */}
           <div className="flex flex-col gap-2">
             <label className="text-[#0e0b77] font-semibold text-sm mr-1">
               المستوى الدراسي <span className="text-red-500">*</span>
+            </label>
+            <select
+              {...register("academicLevel")}
+              className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base appearance-none cursor-pointer"
+            >
+              <option value="">اختر المستوى</option>
+              {LEVELS.map((lvl) => (
+                <option key={lvl.value} value={lvl.value}>
+                  {lvl.label}
+                </option>
+              ))}
+            </select>
+            {errors.academicLevel && (
+              <p className="text-red-500 text-sm">{errors.academicLevel.message}</p>
+            )}
+          </div>
+
+          {/* Graduation Year */}
+          <div className="flex flex-col gap-2">
+            <label className="text-[#0e0b77] font-semibold text-sm mr-1">
+              سنة التخرج <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
               {...register("graduationYear", { valueAsNumber: true })}
               className="w-full h-12 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none px-4 text-base"
-              placeholder="مثال: 5"
-              min={1}
-              max={10}
+              placeholder="مثال: 2027"
+              min={1900}
+              max={2100}
             />
             {errors.graduationYear && (
               <p className="text-red-500 text-sm">{errors.graduationYear.message}</p>
@@ -398,19 +500,35 @@ export default function JoinForm({ onSuccess }: JoinFormProps) {
           )}
         </div>
 
-        {/* Bio */}
+        {/* Joining Goal */}
         <div className="flex flex-col gap-2">
           <label className="text-[#0e0b77] font-semibold text-sm mr-1">
-            عرّفنا بنفسك وباهتماماتك <span className="text-red-500">*</span>
+            ما هدفك من الانضمام لنا <span className="text-red-500">*</span>
           </label>
           <textarea
-            {...register("motivation")}
+            {...register("joiningGoal")}
             className="w-full rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none p-4 text-base resize-none"
-            placeholder="ودنا نسمع نبذة عن نفسك"
+            placeholder="مثال: تطوير مهاراتي والمشاركة في مشاريع مفتوحة المصدر"
             rows={4}
           />
-          {errors.motivation && (
-            <p className="text-red-500 text-sm">{errors.motivation.message}</p>
+          {errors.joiningGoal && (
+            <p className="text-red-500 text-sm">{errors.joiningGoal.message}</p>
+          )}
+        </div>
+
+        {/* Skills & Experience */}
+        <div className="flex flex-col gap-2">
+          <label className="text-[#0e0b77] font-semibold text-sm mr-1">
+            شاركنا مهاراتك وخبراتك <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            {...register("skillsAndExperience")}
+            className="w-full rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all outline-none p-4 text-base resize-y"
+            placeholder="مثال: تصميم UI/UX، تطوير React/Next.js، تنظيم فعاليات..."
+            rows={5}
+          />
+          {errors.skillsAndExperience && (
+            <p className="text-red-500 text-sm">{errors.skillsAndExperience.message}</p>
           )}
         </div>
 
