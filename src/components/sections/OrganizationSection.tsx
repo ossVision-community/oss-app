@@ -63,7 +63,7 @@ export default function OrganizationSection() {
             <div
               key={dept.id}
               className={`bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center text-center hover:shadow-md transition-all ${
-                dept.id === "member_development" ? "order-last sm:order-none" : ""
+                dept.id === "member-development" ? "order-last sm:order-none" : ""
               }`}
             >
               <div className="text-primary mb-3">

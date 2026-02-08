@@ -22,12 +22,12 @@ const LEVELS = [
 ];
 
 const DEPARTMENTS = [
-  { id: "technical", name: "الابتكار التقني", icon: "code" },
-  { id: "design", name: "التصميم والاعلام", icon: "palette" },
-  { id: "media", name: "التخطيط والتنفيذ", icon: "campaign" },
-  { id: "events", name: "الموارد البشرية", icon: "event" },
-  { id: "relations", name: "مبادرة تقدم الأعضاء", icon: "groups" },
-  { id: "public_relations", name: "العلاقات العامة", icon: "handshake" },
+  { id: "public-relations", name: "العلاقات العامة", icon: "handshake" },
+  { id: "tech-innovation", name: "الابتكار التقني", icon: "code" },
+  { id: "planning-execution", name: "التخطيط والتنفيذ", icon: "campaign" },
+  { id: "human-resource", name: "الموارد البشرية", icon: "groups" },
+  { id: "member-development", name: "تطوير الأعضاء", icon: "trending_up" },
+  { id: "media-design", name: "الإعلام والتصميم", icon: "palette" },
 ];
 
 export default function JoinForm({ onSuccess }: JoinFormProps) {

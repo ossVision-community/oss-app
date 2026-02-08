@@ -2,40 +2,40 @@ import { Department } from "./types";
 
 export const DEPARTMENTS: Department[] = [
   {
-    id: "logistics",
+    id: "planning-execution",
     name: "التخطيط والتنفيذ",
     description: "تنظيم العمليات وتنفيذ المبادرات",
     icon: "inventory_2",
   },
   {
-    id: "media",
-    name: "التصميم والاعلام",
-    description: "التواصل وصناعة المحتوى",
-    icon: "campaign",
-  },
-  {
-    id: "technical",
+    id: "tech-innovation",
     name: "الابتكار التقني",
     description: "بناء حلول تقنية عبر مشاريع مفتوحة المصدر",
     icon: "code",
   },
   {
-    id: "member_development",
-    name: "مبادرة تقدم الأعضاء",
-    description: "التدريب والتمكين المعرفي",
-    icon: "trending_up",
+    id: "media-design",
+    name: "الإعلام والتصميم",
+    description: "التواصل وصناعة المحتوى البصري",
+    icon: "campaign",
   },
   {
-    id: "public_relations",
+    id: "public-relations",
     name: "العلاقات العامة",
     description: "بناء الشراكات الخارجية",
     icon: "handshake",
   },
   {
-    id: "human_resources",
+    id: "human-resource",
     name: "الموارد البشرية",
     description: "إدارة شؤون الأعضاء",
     icon: "groups",
+  },
+  {
+    id: "member-development",
+    name: "تطوير الأعضاء",
+    description: "التدريب والتمكين المعرفي",
+    icon: "trending_up",
   },
 ];
 
