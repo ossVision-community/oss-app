@@ -1,5 +1,9 @@
 import type { NextConfig } from "next";
-import { REGISTRATION_ENABLED } from "./src/lib/featureFlags";
+import {
+  REGISTER_URL,
+  REGISTRATION_ENABLED,
+  USES_EXTERNAL_REGISTER_FORM,
+} from "./src/lib/featureFlags";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -79,16 +83,17 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    // While registration is closed the form must not be reachable, even by
-    // typing the URL directly. The page itself is left untouched.
-    if (REGISTRATION_ENABLED) return [];
-    return [
-      {
-        source: "/join",
-        destination: "/",
-        permanent: false,
-      },
-    ];
+    // Registration closed: the form must not be reachable, even by typing the
+    // URL directly. Registration open but pointed at an external form: send
+    // /join there so older links still reach it. The page itself is left
+    // untouched in both cases.
+    if (!REGISTRATION_ENABLED) {
+      return [{ source: "/join", destination: "/", permanent: false }];
+    }
+    if (USES_EXTERNAL_REGISTER_FORM) {
+      return [{ source: "/join", destination: REGISTER_URL, permanent: false }];
+    }
+    return [];
   },
   async headers() {
     return [

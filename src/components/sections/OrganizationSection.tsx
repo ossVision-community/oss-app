@@ -1,4 +1,4 @@
-import { DEPARTMENTS } from "@/lib/constants";
+import { DEPARTMENTS, VISION_PDF_URL } from "@/lib/constants";
 import Link from "next/link";
 
 export default function OrganizationSection() {
@@ -92,7 +92,7 @@ export default function OrganizationSection() {
           </Link>
           <Link
             className="relative overflow-hidden group bg-white text-primary px-8 py-3 rounded-xl text-base font-bold border border-primary/30 hover:border-primary/60 hover:bg-slate-50 transition-all hover:scale-105"
-            href="https://firebasestorage.googleapis.com/v0/b/oss-project-2bab0.firebasestorage.app/o/ref-OSS-Vision.pdf?alt=media&token=d9d2a40b-486b-45e3-bfcb-2f68bcc142ad"
+            href={VISION_PDF_URL}
             target="_blank"
             rel="noopener noreferrer"
           >

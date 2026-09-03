@@ -84,3 +84,12 @@ export const UNIVERSITIES = [
   "جامعة عفت",
   "أخرى",
 ];
+
+/**
+ * Link behind the "اكتشف رؤيتنا" button. Set NEXT_PUBLIC_VISION_PDF_URL in
+ * .env to point it at a new file; the value below is used when it is unset,
+ * so the button keeps working either way.
+ */
+export const VISION_PDF_URL =
+  process.env.NEXT_PUBLIC_VISION_PDF_URL?.trim() ||
+  "https://firebasestorage.googleapis.com/v0/b/oss-project-2bab0.firebasestorage.app/o/ref-OSS-Vision.pdf?alt=media&token=d9d2a40b-486b-45e3-bfcb-2f68bcc142ad";
