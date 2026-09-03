@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "crypto";
-import { getDb } from "@/lib/db";
+import { getDb, isMongoConfigured } from "@/lib/db";
 import { rateLimit } from "@/lib/rateLimit";
 import { isRemoteConfigEnabled } from "@/lib/remoteConfigServer";
 import { JoinApplicationData } from "@/lib/types";
@@ -68,6 +68,13 @@ export async function POST(request: NextRequest) {
             ...rate.headers,
           },
         }
+      );
+    }
+
+    if (!isMongoConfigured()) {
+      return NextResponse.json(
+        { error: "التقديم غير متاح حالياً. الرجاء المحاولة لاحقاً." },
+        { status: 503, headers: { ...NO_STORE_HEADERS, ...rate.headers } }
       );
     }
 
@@ -162,6 +169,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { error: "غير مصرح بالوصول" },
         { status: 401, headers: { ...NO_STORE_HEADERS, ...rate.headers } }
+      );
+    }
+
+    if (!isMongoConfigured()) {
+      return NextResponse.json(
+        { error: "الخدمة غير متاحة حالياً" },
+        { status: 503, headers: { ...NO_STORE_HEADERS, ...rate.headers } }
       );
     }
 

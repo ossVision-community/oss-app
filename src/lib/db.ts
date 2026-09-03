@@ -1,5 +1,5 @@
 import type { Db } from "mongodb";
-import clientPromise from "@/lib/mongodb";
+import { getMongoClient, isMongoConfigured } from "@/lib/mongodb";
 
 type DbEnv = "dev" | "live";
 
@@ -34,7 +34,9 @@ export function getMongoDbName(): string {
   return process.env.MONGODB_DB_NAME_DEV ?? uriDbName ?? "dev";
 }
 
+export { isMongoConfigured };
+
 export async function getDb(): Promise<Db> {
-  const client = await clientPromise;
+  const client = await getMongoClient();
   return client.db(getMongoDbName());
 }
