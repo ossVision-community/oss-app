@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "crypto";
 import { getDb, isMongoConfigured } from "@/lib/db";
-import { REGISTRATION_ENABLED } from "@/lib/featureFlags";
+import { REGISTRATION_ENABLED } from "@/lib/siteConfig";
 import { rateLimit } from "@/lib/rateLimit";
 import { isRemoteConfigEnabled } from "@/lib/remoteConfigServer";
 import { JoinApplicationData } from "@/lib/types";

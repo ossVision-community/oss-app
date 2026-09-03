@@ -1,4 +1,5 @@
-import { DEPARTMENTS, VISION_PDF_URL } from "@/lib/constants";
+import { DEPARTMENTS } from "@/lib/constants";
+import { VISION_PDF_URL } from "@/lib/siteConfig";
 import Link from "next/link";
 
 export default function OrganizationSection() {

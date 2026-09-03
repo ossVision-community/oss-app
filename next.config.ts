@@ -3,7 +3,7 @@ import {
   REGISTER_URL,
   REGISTRATION_ENABLED,
   USES_EXTERNAL_REGISTER_FORM,
-} from "./src/lib/featureFlags";
+} from "./src/lib/siteConfig";
 
 const isProd = process.env.NODE_ENV === "production";
 
