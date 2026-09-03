@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { REGISTRATION_ENABLED } from "./src/lib/featureFlags";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -76,6 +77,18 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+  },
+  async redirects() {
+    // While registration is closed the form must not be reachable, even by
+    // typing the URL directly. The page itself is left untouched.
+    if (REGISTRATION_ENABLED) return [];
+    return [
+      {
+        source: "/join",
+        destination: "/",
+        permanent: false,
+      },
+    ];
   },
   async headers() {
     return [

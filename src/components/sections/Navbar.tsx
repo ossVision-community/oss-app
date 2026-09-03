@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { REGISTRATION_ENABLED } from "@/lib/featureFlags";
 
 export default function Navbar() {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
@@ -46,12 +47,15 @@ export default function Navbar() {
           الشركاء
         </a>
       </div>
-      <Link
-        className="bg-primary hover:bg-opacity-90 text-white px-6 py-2.5 rounded-xl font-medium text-sm transition-all shadow-lg shadow-primary/30"
-        href="/join"
-      >
-        انضم إلينا
-      </Link>
+      {/* Hidden while registration is closed; see @/lib/featureFlags. */}
+      {REGISTRATION_ENABLED && (
+        <Link
+          className="bg-primary hover:bg-opacity-90 text-white px-6 py-2.5 rounded-xl font-medium text-sm transition-all shadow-lg shadow-primary/30"
+          href="/join"
+        >
+          انضم إلينا
+        </Link>
+      )}
     </nav>
   );
 }
